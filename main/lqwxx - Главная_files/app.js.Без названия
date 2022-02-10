@@ -1,0 +1,103 @@
+new WOW().init();
+
+let usernameInput = $('input[name="username"]');
+if (usernameInput.val()) {
+    $('.shop-selection').removeClass('d-none');
+} else {
+    $('.cart').addClass('d-none');
+}
+
+usernameInput.on('input', function (e, element) {
+    let value = $(this).val();
+    if (value) {
+        $('.cart').removeClass('d-none');
+        $('.shop-selection').removeClass('d-none');
+    } else {
+        $('.cart').addClass('d-none');
+        $('.shop-selection').addClass('d-none');
+    }
+});
+
+$(document).click(function(event) {
+    let target = $(event.target);
+
+    let shopButton = $('.shop-button');
+    let shop = $('.shop');
+    let shopIcon = $('.chose-product-icon');
+
+    if (target.closest(shopButton).length) {
+        shopButtonClick();
+    } else if (!target.closest(shop).length && !shop.hasClass('d-none')) {
+        shop.addClass('d-none');
+        shopIcon.html('<i class=\'fas fa-chevron-down\'></i>')
+    }
+
+    let choseServerButton = ('.chose-server-button');
+    let servers = $('.servers');
+    let choseServerIcon = $('.chose-server-icon');
+
+    if (target.closest(choseServerButton).length) {
+        choseServerButtonClick();
+    } else if (!target.closest(servers).length && !servers.hasClass('d-none')) {
+        servers.addClass('d-none');
+        choseServerIcon.html('<i class=\'fas fa-chevron-down\'></i>')
+    }
+});
+
+function shopButtonClick() {
+    let servers = $('.servers');
+    let shop = $('.shop');
+    let icon = $('.chose-product-icon');
+    if (shop.hasClass('d-none')) {
+        shop.removeClass('d-none');
+        icon.html('<i class=\'fas fa-chevron-up\'></i>')
+    } else {
+        shop.addClass('d-none');
+        icon.html('<i class=\'fas fa-chevron-down\'></i>')
+    }
+
+    if (!servers.hasClass('d-none')) {
+        servers.addClass('d-none');
+    }
+}
+
+function shopItemClick() {
+    $('.shop').addClass('d-none');
+    $('.chose-product-icon').html('<i class=\'fas fa-chevron-down\'></i>');
+}
+
+function choseServerButtonClick() {
+    let shop = $('.shop');
+    let servers = $('.servers');
+    let icon = $('.chose-server-icon');
+    if (servers.hasClass('d-none')) {
+        servers.removeClass('d-none');
+        icon.html('<i class=\'fas fa-chevron-up\'></i>')
+    } else {
+        servers.addClass('d-none');
+        icon.html('<i class=\'fas fa-chevron-down\'></i>')
+    }
+
+    if (!shop.hasClass('d-none')) {
+        shop.addClass('d-none');
+    }
+}
+
+function copyToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+
+    $.oc.flashMsg({
+        'text': 'Скопировано',
+        'class': 'info',
+        'interval': 1.5
+    })
+}
